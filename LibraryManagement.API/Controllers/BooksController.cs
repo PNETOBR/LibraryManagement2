@@ -24,6 +24,8 @@ public class BooksController : ControllerBase
     [HttpPost]
     public IActionResult Post(int id, CreateBookInputModel model)
     {
-        return CreatedAtAction(nameof(GetById), new { id = 1 }, model);
+        throw new Exception();
+
+        //return CreatedAtAction(nameof(GetById), new { id = 1 }, model);
     }
 }
