@@ -1,4 +1,5 @@
-﻿using LibraryManagement.API.Model;
+﻿using LibraryManagement.API.Entities;
+using LibraryManagement.API.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.API.Controllers;
@@ -12,7 +13,7 @@ public class BooksController : ControllerBase
     [HttpGet]
     public IActionResult Get(string search = "")
     {
-        return Ok("Books");
+        return Ok("books");
     }
 
     [HttpGet("{id}")]

@@ -1,5 +1,7 @@
 using LibraryManagement.API.ExceptionHandler;
+using LibraryManagement.API.Infraestructure;
 using LibraryManagement.API.Model;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<LoansBookLimitedConfig>(builder.Configuration.GetSection("LoansBookLimitedConfig"));
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddDbContext<LibraryManagementDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddControllers();

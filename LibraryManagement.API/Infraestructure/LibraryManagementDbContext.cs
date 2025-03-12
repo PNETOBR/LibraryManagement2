@@ -5,12 +5,12 @@ namespace LibraryManagement.API.Infraestructure;
 
 public class LibraryManagementDbContext : DbContext
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Loan> Loans { get; set; }
+    public DbSet<Users> Users { get; set; }
+    public DbSet<Books> Books { get; set; }
+    public DbSet<Loans> Loans { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public LibraryManagementDbContext(DbContextOptions<LibraryManagementDbContext> options)
+        : base(options)
     {
-        optionsBuilder.UseSqlite("Data Source=C:\\Users\\PNETO\\Desktop\\TechLibraryDb.db");
     }
 }
