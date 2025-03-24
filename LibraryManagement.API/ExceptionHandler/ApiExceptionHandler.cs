@@ -9,7 +9,7 @@ public class ApiExceptionHandler : IExceptionHandler
     {
         var details = new ProblemDetails
         {
-            Title = "Esse Livro ja está registrado!",
+            Title = exception.Message,
             Status = StatusCodes.Status400BadRequest,
         };
 

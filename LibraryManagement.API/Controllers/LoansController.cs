@@ -24,9 +24,9 @@ public class LoansController : ControllerBase
     public IActionResult Post(CreateLoanInputModel model)
     {
         int currentLoans = 7;
-        if (currentLoans >= _config.MaxLoansForPerson)
+        if (currentLoans <= _config.MaxLoansForPerson)
         {
-            return BadRequest($"O usuário atingiu o limite máximo de {_config.MaxLoansForPerson} empréstimos.");
+            return BadRequest($"O usuário atingiu o limite máximo de empréstimos.");
         }
         return CreatedAtAction(nameof(GetById), new { id = 1 }, model);
     }

@@ -1,5 +1,5 @@
 using LibraryManagement.API.ExceptionHandler;
-using LibraryManagement.API.Infraestructure;
+using LibraryManagement.API.Infraestructure.Persistence;
 using LibraryManagement.API.Model;
 using Microsoft.EntityFrameworkCore;
 
