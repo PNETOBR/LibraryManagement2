@@ -1,10 +1,12 @@
 ﻿using LibraryManagement.API.Entities;
 using LibraryManagement.API.Infraestructure.Persistence;
 using LibraryManagement.API.Model;
+using LibraryManagement.API.ViewModels;
 using LibraryManagement.API.ViewModels.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json.Serialization;
 
 namespace LibraryManagement.API.Controllers;
 
@@ -66,5 +68,38 @@ public class UsersController : ControllerBase
             .ToListAsync();
 
         return Ok(users);
+    }
+
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user == null)
+            return NotFound("Usuário não encontrado");
+
+        user.IsDelete = true;
+        await _context.SaveChangesAsync();
+
+        return Ok("Usuário deletado com sucesso");
+    }
+
+    [HttpPut("{id}/update-password")]
+    public async Task<IActionResult> UpdatePassword(int id, [FromBody] UpdatePasswordModel model)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user == null)
+        {
+            return NotFound("Usuário não encontrado.");
+        }
+
+        user.Password = model.NewPassword; 
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+
+        return Ok("Senha alterada com sucesso.");
     }
 }
