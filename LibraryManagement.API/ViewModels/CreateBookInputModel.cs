@@ -6,4 +6,7 @@ public class CreateBookInputModel
     public int ISBN { get; set; }
     public string Author { get; set; }
     public DateTime? YearOfPublication { get; set; }
+
 }
+
+

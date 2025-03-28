@@ -2,15 +2,18 @@
 
 public class CreateUserInputModel
 {
-    public CreateUserInputModel(int id, string name, string email)
+    public CreateUserInputModel(string name, DateTime birthday, string email, string password)
     {
-        Id = id;
+
         Name = name;
+        Birthday = birthday;
         Email = email;
+        Password = password;
     }
 
-    public int Id { get; set; }
     public string Name { get; set; }
+    public DateTime Birthday { get; set; }
     public string Email { get; set; }
+    public string Password { get; set; }
     public int Loans { get; set; }
 }

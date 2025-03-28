@@ -64,13 +64,13 @@ public class BooksController : ControllerBase
    
     //}
 
-    [HttpPost]//api/post
+    [HttpPost]//api/create
     public async Task<IActionResult> Create([FromBody] CreateBookInputModel model)
     {
         var book = new Books(
             model.Title,
             model.Author,
-            1, // amount (ou model.Amount se tiver)
+            1,
             model.ISBN,
             model.YearOfPublication?.Year.ToString()
         );
@@ -83,11 +83,12 @@ public class BooksController : ControllerBase
         {
             return BadRequest(new { message = ex.InnerException?.Message ?? ex.Message });
         }
-
+        
         return CreatedAtAction(nameof(GetAll), new { id = book.Id }, book);
+
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}")]//api/updateAll/id
     public async Task<IActionResult> UpdateAll(int id, Books bookdb)
     {
         var bookDb = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
@@ -106,7 +107,7 @@ public class BooksController : ControllerBase
         return await UpdateDb(bookDb);
     }
 
-    [HttpPut("{id}/amount")]
+    [HttpPut("{id}/amount")]//api/updateAmount/id/amount
 
     public async Task<IActionResult> UpdateAmount(int id, int amount)
     {
@@ -130,7 +131,7 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}")]//api/delete/id
     public async Task<IActionResult> Delete(int id)
     {
         var book = await _context.Books
@@ -144,7 +145,7 @@ public class BooksController : ControllerBase
         book.IsDelete = true;
         await UpdateDb(book);
 
-        return Ok($"O Livro nome: ({book.Title}) foi deletado"); // Código 204 - Sucesso sem retorno de conteúdo
+        return Ok($"O Livro nome: ({book.Title}) foi deletado");
     }
 
 
