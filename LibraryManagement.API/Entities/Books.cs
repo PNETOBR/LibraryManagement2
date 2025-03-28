@@ -1,8 +1,13 @@
-﻿namespace LibraryManagement.API.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace LibraryManagement.API.Entities;
 
 public class Books : BaseEntity
 {
-    public Books(string title, string author, int amount, int iSBN, string publishYear)
+    public Books()
+    {
+    }
+    public Books(string title, string author, int amount, int iSBN, string publishYear, bool isDelete = false)
         :base()
 
     {
@@ -11,6 +16,8 @@ public class Books : BaseEntity
         Amount = amount;
         ISBN = iSBN;
         PublishYear = publishYear;
+        IsDelete = isDelete;
+
     }
 
     public string Title { get; set; }
@@ -18,6 +25,11 @@ public class Books : BaseEntity
     public int Amount { get; set; }
     public int ISBN { get; set; }
     public string PublishYear { get; set; }
-    public List<Loans> Loans { get; set; }
+
+    [JsonIgnore]
+    public List<Loans>? Loans { get; set; }
+
+    [JsonIgnore]
+    public bool IsDelete { get; set; }
 
 }

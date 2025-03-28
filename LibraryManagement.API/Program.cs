@@ -10,8 +10,11 @@ builder.Services.Configure<LoansBookLimitedConfig>(builder.Configuration.GetSect
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddDbContext<LibraryManagementDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<LibraryManagementDbContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("LibraryCs")));
+
+var connectionString = builder.Configuration.GetConnectionString("LibraryCs");
+builder.Services.AddDbContext<LibraryManagementDbContext>(o => o.UseSqlite(connectionString));
 
 
 builder.Services.AddControllers();

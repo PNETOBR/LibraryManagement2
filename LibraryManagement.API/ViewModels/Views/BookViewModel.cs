@@ -13,6 +13,7 @@ public class BookViewModel
         ISBN = iSBN;
         Publisher = publisher;
 
+
     }
     public int Id { get; private set; }
     public string Title { get; private set; }
