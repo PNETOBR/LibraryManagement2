@@ -5,6 +5,7 @@ using LibraryManagement.API.ViewModels;
 using LibraryManagement.API.ViewModels.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
 
@@ -28,7 +29,8 @@ public class UsersController : ControllerBase
             model.Name,
             model.Email,
             model.Password,
-            model.Birthday
+            model.Birthday,
+            model.LoanCount
             );
         try
         {
@@ -53,7 +55,7 @@ public class UsersController : ControllerBase
             if (user != null)
             {
                 var userViewModel = new UserViewModel(
-                user.Id, user.Name, user.Email, user.Birthday);
+                user.Id, user.Name, user.Email, user.LoanCount, user.Birthday);
                 return Ok(userViewModel);
             }
             else
@@ -62,9 +64,9 @@ public class UsersController : ControllerBase
         var users = await _context.Users
             .AsNoTracking()
             .OrderBy(u => u.Id)
-            .Where(u => u.IsDelete == false)
+            .Where(u => u.Active == true)
             .Select(u => new UserViewModel(
-                u.Id, u.Name, u.Email, u.Birthday))
+                u.Id, u.Name, u.Email, u.LoanCount, u.Birthday))
             .ToListAsync();
 
         return Ok(users);
@@ -79,7 +81,7 @@ public class UsersController : ControllerBase
         if (user == null)
             return NotFound("Usuário não encontrado");
 
-        user.IsDelete = true;
+        user.Active = false;
         await _context.SaveChangesAsync();
 
         return Ok("Usuário deletado com sucesso");
