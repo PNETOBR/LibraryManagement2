@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace LibraryManagement.API.Entities;
+namespace LibraryManagement.Core.Entities;
 
 public class Books : BaseEntity
 {

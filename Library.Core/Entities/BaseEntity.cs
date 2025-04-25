@@ -1,4 +1,4 @@
-﻿namespace LibraryManagement.API.Entities;
+﻿namespace LibraryManagement.Core.Entities;
 
 public abstract class BaseEntity
 {

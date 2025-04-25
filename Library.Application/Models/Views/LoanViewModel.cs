@@ -1,6 +1,6 @@
-﻿using LibraryManagement.API.Entities;
+﻿using LibraryManagement.Core.Entities;
 
-namespace LibraryManagement.API.ViewModels.Views;
+namespace LibraryManagement.Application.Models.Views;
 
 public class LoanViewModel
 {

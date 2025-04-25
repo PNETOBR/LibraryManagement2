@@ -1,4 +1,4 @@
-﻿namespace LibraryManagement.API.Model;
+﻿namespace LibraryManagement.Application.Models;
 
 public class CreateLoanInputModel
 {

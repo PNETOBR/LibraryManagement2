@@ -1,11 +1,7 @@
 using LibraryManagement.API.ExceptionHandler;
-using LibraryManagement.API.Infraestructure.MongoDB;
-using LibraryManagement.API.Infraestructure.MongoDB.Services;
-using LibraryManagement.API.Infraestructure.Persistence;
-using LibraryManagement.API.Model;
+using LibraryManagement.Application.Models;
+using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,17 +15,6 @@ builder.Services.AddProblemDetails();
 
 var connectionString = builder.Configuration.GetConnectionString("LibraryCs");
 builder.Services.AddDbContext<LibraryManagementDbContext>(o => o.UseSqlite(connectionString));
-
-//MongoDB
-builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
-//builder.Services.AddSingleton<MongoClient>(sp =>
-//{
-//    var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
-//    return new MongoClient(settings.ConnectionString);
-//});
-
-//builder.Services.AddSingleton<MongoBookService>();
-
 
 
 builder.Services.AddControllers();

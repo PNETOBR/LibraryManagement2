@@ -1,4 +1,4 @@
-﻿namespace LibraryManagement.API.ViewModels;
+﻿namespace LibraryManagement.Application.Models;
 
 public class UpdatePasswordModel
 {

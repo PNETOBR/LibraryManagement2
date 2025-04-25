@@ -1,13 +1,9 @@
-﻿using LibraryManagement.API.Entities;
-using LibraryManagement.API.Infraestructure.Persistence;
-using LibraryManagement.API.Model;
-using LibraryManagement.API.ViewModels;
-using LibraryManagement.API.ViewModels.Views;
+﻿using LibraryManagement.Application.Models;
+using LibraryManagement.Application.Models.Views;
+using LibraryManagement.Core.Entities;
+using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.Json.Serialization;
 
 namespace LibraryManagement.API.Controllers;
 
