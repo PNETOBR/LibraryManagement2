@@ -1,6 +1,6 @@
 ﻿using LibraryManagement.Core.Entities;
 
-namespace LibraryManagement.Application.Models.Views;
+namespace LibraryManagement.Application.Models.DTOs.Outputs;
 
 public class BookViewModel
 {

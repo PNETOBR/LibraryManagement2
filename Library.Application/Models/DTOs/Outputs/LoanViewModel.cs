@@ -1,10 +1,10 @@
 ﻿using LibraryManagement.Core.Entities;
 
-namespace LibraryManagement.Application.Models.Views;
+namespace LibraryManagement.Application.Models.DTOs.Outputs;
 
 public class LoanViewModel
 {
-    public LoanViewModel(int id, int userId,string userName , int bookId, Books title, DateTime loanDate, DateTime returnDate, bool returned = false)
+    public LoanViewModel(int id, int userId, string userName, int bookId, Books title, DateTime loanDate, DateTime returnDate, bool returned = false)
     {
         Id = id;
         UserId = userId;

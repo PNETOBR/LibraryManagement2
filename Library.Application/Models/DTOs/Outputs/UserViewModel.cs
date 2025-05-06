@@ -1,16 +1,17 @@
 ﻿using LibraryManagement.Core.Entities;
 
-namespace LibraryManagement.Application.Models.Views;
+namespace LibraryManagement.Application.Models.DTOs.Outputs;
 
 public class UserViewModel
 {
-    public UserViewModel(int id, string name, string email,int loanCount, DateTime birthday)
+    public UserViewModel(int id, string name, string email, int loanCount, DateTime birthday, bool active)
     {
         Id = id;
         Name = name;
         Email = email;
         LoanCount = loanCount;
         Birthday = birthday;
+        Active = active;
     }
 
     public int Id { get; set; }
@@ -18,6 +19,7 @@ public class UserViewModel
     public string Email { get; set; }
     public int LoanCount { get; set; }
     public DateTime? Birthday { get; set; }
+    public bool Active { get; set; }
 
     public static UserViewModel FromEntity(Users entity)
         => new(
@@ -25,7 +27,8 @@ public class UserViewModel
             entity.Name,
             entity.Email,
             entity.LoanCount,
-            entity.Birthday
+            entity.Birthday,
+            entity.Active
         );
 
 }

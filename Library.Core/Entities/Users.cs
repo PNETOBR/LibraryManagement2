@@ -22,5 +22,5 @@ public class Users : BaseEntity
     public DateTime Birthday { get; set; }
     public int LoanCount { get; set; }
     public ICollection<Loans> Loans { get; set; } = new List<Loans>();
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 }

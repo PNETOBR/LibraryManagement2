@@ -1,5 +1,7 @@
-﻿using LibraryManagement.Application.Models;
-using LibraryManagement.Application.Models.Views;
+﻿using LibraryManagement.Application.Models.DTOs.Inputs;
+using LibraryManagement.Application.Models.DTOs.Outputs;
+using LibraryManagement.Application.Models.DTOs.Result;
+using LibraryManagement.Application.Models.Services.Interfaces;
 using LibraryManagement.Core.Entities;
 using LibraryManagement.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -11,34 +13,25 @@ namespace LibraryManagement.API.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private readonly LibraryManagementDbContext _context;
+    private readonly IUserService _userService;
 
-    public UsersController(LibraryManagementDbContext context)
+    public UsersController(IUserService userService)
     {
-        _context = context;
+        _userService = userService;
     }
 
-    [HttpPost] //api/users
+    [HttpPost] // api/users
     public async Task<IActionResult> UserCreate([FromBody] CreateUserInputModel model)
     {
-        var user = new Users(
-            model.Name,
-            model.Email,
-            model.Password,
-            model.Birthday,
-            model.LoanCount
-            );
         try
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var userViewModel = await _userService.CreateUserAsync(model);
+            return CreatedAtAction(nameof(GetAll), new { id = userViewModel.Id }, userViewModel);
         }
-        catch (DbUpdateException ex)
+        catch (Exception ex)
         {
             return BadRequest(new { message = "Erro ao criar usuário", error = ex.Message });
         }
-
-        return CreatedAtAction(nameof(GetAll), new { id = user.Id }, model);
     }
 
     [HttpGet]
@@ -46,58 +39,36 @@ public class UsersController : ControllerBase
     {
         if (id > 0)
         {
-            var user = _context.Users.FindAsync(id).Result;
-
-            if (user != null)
+            var userViewModel = await _userService.GetUserByIdAsync(id);
+            if (userViewModel != null)
             {
-                var userViewModel = new UserViewModel(
-                user.Id, user.Name, user.Email, user.LoanCount, user.Birthday);
                 return Ok(userViewModel);
             }
             else
                 return NotFound("Usuário Não Encontrado");
         }
-        var users = await _context.Users
-            .AsNoTracking()
-            .OrderBy(u => u.Id)
-            .Where(u => u.Active == true)
-            .Select(u => new UserViewModel(
-                u.Id, u.Name, u.Email, u.LoanCount, u.Birthday))
-            .ToListAsync();
 
+        var users = await _userService.GetAllUsersAsync();
         return Ok(users);
     }
-
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var message = await _userService.DeleteUserAsync(id);
+        if (message.Contains("não encontrado"))
+            return NotFound(message);
 
-        if (user == null)
-            return NotFound("Usuário não encontrado");
-
-        user.Active = false;
-        await _context.SaveChangesAsync();
-
-        return Ok("Usuário deletado com sucesso");
+        return Ok(message);
     }
 
     [HttpPut("{id}/update-password")]
     public async Task<IActionResult> UpdatePassword(int id, [FromBody] UpdatePasswordModel model)
     {
-        var user = await _context.Users.FindAsync(id);
+        var message = await _userService.UpdateUserPasswordAsync(id, model);
+        if (message.Contains("não encontrado"))
+            return NotFound(message);
 
-        if (user == null)
-        {
-            return NotFound("Usuário não encontrado.");
-        }
-
-        user.Password = model.NewPassword; 
-
-        _context.Users.Update(user);
-        await _context.SaveChangesAsync();
-
-        return Ok("Senha alterada com sucesso.");
+        return Ok(message);
     }
 }

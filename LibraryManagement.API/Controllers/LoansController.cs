@@ -1,10 +1,11 @@
 ﻿using LibraryManagement.Infrastructure.Persistence;
-using LibraryManagement.Application.Models;
-using LibraryManagement.Application.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using LibraryManagement.Core.Entities;
+using LibraryManagement.Application.Models.DTOs.Outputs;
+using LibraryManagement.Application.Models.DTOs.Inputs;
+using LibraryManagement.Application.Models.Config;
 
 namespace LibraryManagement.API.Controllers;
 

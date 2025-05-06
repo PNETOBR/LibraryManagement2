@@ -1,4 +1,4 @@
-﻿namespace LibraryManagement.Application.Models;
+﻿namespace LibraryManagement.Application.Models.DTOs.Inputs;
 
 public class CreateUserInputModel
 {
@@ -17,4 +17,5 @@ public class CreateUserInputModel
     public string Password { get; set; }
     public int Loans { get; set; }
     public int LoanCount { get; set; }
+    public bool Active { get; set; }
 }

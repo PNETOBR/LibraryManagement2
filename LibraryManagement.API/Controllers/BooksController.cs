@@ -1,9 +1,10 @@
 ﻿using LibraryManagement.Infrastructure.Persistence;
-using LibraryManagement.Application.Models;
-using LibraryManagement.Application.Models.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.Core.Entities;
+using LibraryManagement.Application.Models.DTOs.Outputs;
+using LibraryManagement.Application.Models.DTOs.Inputs;
+using LibraryManagement.Application.Models.DTOs.Result;
 
 namespace LibraryManagement.API.Controllers;
 
@@ -24,16 +25,16 @@ public class BooksController : ControllerBase
     {
         if (id > 0)
         {
-            var book = _context.Books.FindAsync(id).Result;
+            var book = await _context.Books.FindAsync(id);
 
             if (book != null)
             {
                 var bookViewModel = new BookViewModel(
                 book.Id, book.Title, book.Author, book.Amount, book.ISBN, book.PublishYear);
-                return Ok(bookViewModel);
+                return Ok(ResultViewModel<BookViewModel>.Ok(bookViewModel, "Livro Encontrado"));
             }
             else
-                return NotFound("Livro Não Encontrado");
+                return NotFound(ResultViewModel<string>.Fail("Livro Não Encontrado"));
         }
         var books = await _context.Books
             .AsNoTracking()
@@ -43,26 +44,12 @@ public class BooksController : ControllerBase
                 b.Id, b.Title, b.Author, b.Amount, b.ISBN, b.PublishYear))
             .ToListAsync();
 
-        return Ok(books);
+        if (books == null || !books.Any())
+            return NotFound(ResultViewModel<List<BookViewModel>>.Fail("Nenhum livro encontrado."));
+
+        return Ok(ResultViewModel<List<BookViewModel>>.Ok(books, "livros encontrados"));
     }
 
-    //[HttpGet("{id}")]
-    //public IActionResult GetById(int id)
-    //{
-        
-
-    //    if (book == null)
-    //    {
-    //        return NotFound(new { message = "Livro não encontrado." });
-    //    }
-    //    var book = _context.Books.FindAsync(id).Result;
-        
-    //     var bookViewModel = new BookViewModel(
-    //        book.Id, book.Title, book.Author, book.Amount, book.ISBN, book.PublishYear);
-
-    //        return Ok(bookViewModel);
-   
-    //}
 
     [HttpPost]//api/create
     public async Task<IActionResult> Create([FromBody] CreateBookInputModel model)
